@@ -1,0 +1,62 @@
+[
+  {
+    "household_id": 3,
+    "name": "Alpha Inverter AC",
+    "category": "climate",
+    "power_watts": 1200.0,
+    "quantity": 1,
+    "daily_hours": 5.0,
+    "standby_watts": 0.0,
+    "room_location": "Living Room",
+    "energy_star_rating": 3,
+    "notes": "",
+    "created_at": "2026-11-13T06:25:57.357125",
+    "updated_at": "2026-11-13T06:25:57.357125",
+    "id": 1
+  },
+  {
+    "household_id": 4,
+    "name": "Beta Geyser",
+    "category": "other",
+    "power_watts": 2000.0,
+    "quantity": 1,
+    "daily_hours": 2.0,
+    "standby_watts": 0.0,
+    "room_location": "Living Room",
+    "energy_star_rating": 3,
+    "notes": "",
+    "created_at": "2026-11-13T06:25:57.365226",
+    "updated_at": "2026-11-13T06:25:57.365226",
+    "id": 2
+  },
+  {
+    "household_id": 3,
+    "name": "Alpha Inverter AC",
+    "category": "climate",
+    "power_watts": 1200.0,
+    "quantity": 1,
+    "daily_hours": 5.0,
+    "standby_watts": 0.0,
+    "room_location": "Living Room",
+    "energy_star_rating": 3,
+    "notes": "",
+    "created_at": "2026-11-13T11:59:47.421027",
+    "updated_at": "2026-11-13T11:59:47.421027",
+    "id": 3
+  },
+  {
+    "household_id": 4,
+    "name": "Beta Geyser",
+    "category": "other",
+    "power_watts": 2000.0,
+    "quantity": 1,
+    "daily_hours": 2.0,
+    "standby_watts": 0.0,
+    "room_location": "Living Room",
+    "energy_star_rating": 3,
+    "notes": "",
+    "created_at": "2026-11-13T11:59:47.421222",
+    "updated_at": "2026-11-13T11:59:47.421222",
+    "id": 4
+  }
+]

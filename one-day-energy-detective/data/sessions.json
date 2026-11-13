@@ -1,0 +1,58 @@
+[
+  {
+    "token": "I96f1JxSyC0VPkNOx9oQ_3BdFfDGrl3TiQ1tusA7Xpo",
+    "user_id": 1,
+    "created_at": "2026-11-13T06:25:56.985837",
+    "expires_at": "2026-11-14 06:25:56",
+    "id": 1
+  },
+  {
+    "token": "_fN5t25Pxn8qc2UVPVKKRnvP0-hCggKmTQJn_eZTYkY",
+    "user_id": 1,
+    "created_at": "2026-11-13T06:25:57.025507",
+    "expires_at": "2026-11-14 06:25:57",
+    "id": 2
+  },
+  {
+    "token": "YFdPADoFJ7DE8D83uvwzZIxPbREDz0tztKIokxID100",
+    "user_id": 2,
+    "created_at": "2026-11-13T06:25:57.268644",
+    "expires_at": "2026-11-14 06:25:57",
+    "id": 3
+  },
+  {
+    "token": "o4FdX7nkrKFpIkTuIFOrQml3S4JMop6RBDxeAA1nYxM",
+    "user_id": 5,
+    "created_at": "2026-11-13T09:01:47.594374",
+    "expires_at": "2026-11-14 09:01:47",
+    "id": 4
+  },
+  {
+    "token": "Y-lFl-R3WQTmRFT19XgpQ1mjFdqzrwQg0h-2_ksFXf0",
+    "user_id": 6,
+    "created_at": "2026-11-13T09:03:21.105761",
+    "expires_at": "2026-11-14 09:03:21",
+    "id": 5
+  },
+  {
+    "token": "OlNlgs3DVft2gxWUaGWklBdLf6MifGELNsPIU4HqD-Q",
+    "user_id": 7,
+    "created_at": "2026-11-13T11:59:47.215146",
+    "expires_at": "2026-11-14 11:59:47",
+    "id": 6
+  },
+  {
+    "token": "IbofiOwFvwPzM-1Tf-Z-Bk2T26Cg9PEv79Xp1ShYqEk",
+    "user_id": 7,
+    "created_at": "2026-11-13T11:59:47.235082",
+    "expires_at": "2026-11-14 11:59:47",
+    "id": 7
+  },
+  {
+    "token": "IYlt1rC7NzrEkocU0F8Cjy4oAcb7rklB_kjImLcfTNo",
+    "user_id": 2,
+    "created_at": "2026-11-13T11:59:47.379459",
+    "expires_at": "2026-11-14 11:59:47",
+    "id": 8
+  }
+]

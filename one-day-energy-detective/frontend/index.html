@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>One-Day Energy Detective — Household Energy Audit</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23238653'><polygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'/></svg>">
+</head>
+<body>
+
+  <!-- Toast Notification Dispatcher -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- ====================================================================
+       SCREEN 1: AUTHENTICATION (Sign In / Create Account)
+       Features the Fastweb Environment article image
+       ==================================================================== -->
+  <div id="auth-screen" class="auth-page" style="display: none;">
+    <div class="auth-split-card">
+      
+      <!-- Environmental Illustration & Fastweb Article Photo -->
+      <div class="auth-image-panel">
+        <img
+          src="https://www.fastweb.com/uploads/article_photo/photo/2036160/Simple_Environment.jpeg"
+          alt="Eight Simple Ways to Help the Environment"
+          onerror="this.src='https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=1000&q=80'"
+        >
+        <div class="auth-image-overlay"></div>
+        <div class="auth-image-content">
+          <div style="display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(35, 134, 83, 0.6); padding: 0.3rem 0.75rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600; margin-bottom: 0.85rem; border: 1px solid rgba(185, 221, 189, 0.4);">
+            🌱 Eco-Conscious Living
+          </div>
+          <h2>One-Day Energy Detective</h2>
+          <p>
+            Track your daily household electricity footprint, compare against your locality benchmark, and discover whether your energy consumption is safe for the environment.
+          </p>
+        </div>
+      </div>
+
+      <!-- Auth Form Panel -->
+      <div class="auth-form-panel">
+        <div style="margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.45rem; color: var(--color-deep-green); font-weight: 700; margin-bottom: 0.35rem;">
+            Welcome to Energy Detective
+          </h2>
+          <p style="font-size: 0.85rem; color: var(--color-text-muted);">
+            Sign in to access your household electricity audit or create a new account.
+          </p>
+        </div>
+
+        <!-- Mode Toggle Tabs -->
+        <div class="auth-toggle-btns">
+          <button type="button" id="tab-login" class="auth-toggle-btn active">Sign In</button>
+          <button type="button" id="tab-register" class="auth-toggle-btn">Create Account</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="login-form">
+          <div class="form-group">
+            <label class="form-label" for="login-email">Email Address</label>
+            <input type="email" id="login-email" name="email" class="form-input" placeholder="you@example.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="login-password">Password</label>
+            <input type="password" id="login-password" name="password" class="form-input" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">
+            Sign In
+          </button>
+        </form>
+
+        <!-- Create Account Form -->
+        <form id="register-form" style="display: none;">
+          <div class="form-group">
+            <label class="form-label" for="reg-name">Full Name</label>
+            <input type="text" id="reg-name" name="name" class="form-input" placeholder="Jane Doe" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-email">Email Address</label>
+            <input type="email" id="reg-email" name="email" class="form-input" placeholder="you@example.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-password">Password (min 6 characters)</label>
+            <input type="password" id="reg-password" name="password" class="form-input" minlength="6" placeholder="••••••••" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="reg-members">Household Members</label>
+              <input type="number" id="reg-members" name="members" class="form-input" min="1" max="50" value="3" required>
+              <div class="form-hint">People living in home</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reg-tariff">Tariff (₹ / kWh)</label>
+              <input type="number" id="reg-tariff" name="tariff" class="form-input" step="0.1" value="7.5" required>
+              <div class="form-hint">Cost per electricity unit</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Do you live in an urban or rural area?</label>
+            <div style="display: flex; gap: 1.25rem; margin-top: 0.4rem;">
+              <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;font-size:0.9rem;">
+                <input type="radio" name="locality_type" value="urban" checked style="accent-color:#238653;"> Urban (City)
+              </label>
+              <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;font-size:0.9rem;">
+                <input type="radio" name="locality_type" value="rural" style="accent-color:#238653;"> Rural (Village)
+              </label>
+            </div>
+            <div class="form-hint">Your usage is compared with the matching Indian household average</div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">
+            Create Account & Begin
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       SCREEN 2: MAIN APPLICATION SHELL (Deep Green Sidebar + Main View)
+       ==================================================================== -->
+  <div id="app-shell" class="app-shell" style="display: none;">
+    
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div>
+        <a href="#" class="sidebar-brand" onclick="App.showView('appliances'); return false;">
+          <div class="brand-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <h1>Energy Detective</h1>
+            <p>Household Audit</p>
+          </div>
+        </a>
+
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar-nav">
+          <button type="button" class="nav-link-btn active" data-view="appliances">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+            1. Home Appliances
+          </button>
+          <button type="button" class="nav-link-btn" data-view="results">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            2. Energy Analysis
+          </button>
+          <button type="button" class="nav-link-btn" data-view="recommendations">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            3. Eco Recommendations
+          </button>
+        </nav>
+      </div>
+
+      <!-- User Info & Logout in Sidebar Footer -->
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div id="user-avatar-initial" class="user-avatar">U</div>
+          <div class="user-info">
+            <span id="sidebar-user-name" class="user-name">User</span>
+            <span id="sidebar-user-email" class="user-email">email@example.com</span>
+          </div>
+        </div>
+        <button type="button" id="logout-btn" class="btn btn-secondary btn-sm" style="width: 100%; border: none; background: rgba(255,255,255,0.1); color: #fff;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="app-main">
+
+      <!-- ====================================================================
+           VIEW A: APPLIANCES & HOUSEHOLD SETUP
+           ==================================================================== -->
+      <section id="appliances-view" style="display: none;">
+        <div class="page-header">
+          <div class="page-title">
+            <h2>Enter Household Appliances</h2>
+            <p>Input the electrical appliances used in your home, quantity, power rating in Watts, and daily hours.</p>
+          </div>
+          <div>
+            <button type="button" class="btn btn-primary" onclick="App.showView('results')">
+              Calculate Energy Analysis →
+            </button>
+          </div>
+        </div>
+
+        <!-- Household Members Configuration Card -->
+        <div class="eco-card">
+          <div class="eco-card-header">
+            <div class="eco-card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-leaf-green)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              Household Details
+            </div>
+            <span style="font-size: 0.8125rem; color: var(--color-text-muted);">Used for per-capita environmental comparison</span>
+          </div>
+          <form id="members-form" style="display: flex; align-items: flex-end; gap: 1.25rem; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 200px;">
+              <label class="form-label" for="input-household-members">Number of Household Members (Persons)</label>
+              <input type="number" id="input-household-members" class="form-input" min="1" max="50" value="3" required>
+            </div>
+            <div style="flex: 1; min-width: 200px;">
+              <label class="form-label" for="input-tariff-rate">Electricity Tariff Rate (₹ per kWh / unit)</label>
+              <input type="number" id="input-tariff-rate" class="form-input" step="0.1" min="0.1" value="7.5" required>
+            </div>
+            <div style="flex: 1; min-width: 200px;">
+              <label class="form-label" for="input-locality-type">Do you live in an urban or rural area?</label>
+              <select id="input-locality-type" class="form-select">
+                <option value="urban">Urban (City)</option>
+                <option value="rural">Rural (Village)</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-secondary">Update Household</button>
+          </form>
+        </div>
+
+        <!-- Add Appliance Card -->
+        <div class="eco-card">
+          <div class="eco-card-header">
+            <div class="eco-card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-leaf-green)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+              Add an Appliance
+            </div>
+            <span style="font-size: 0.78rem; color: var(--color-text-muted);">Click any chip below to auto-fill typical wattage</span>
+          </div>
+
+          <!-- Quick Suggestion Chips (Common Appliances) -->
+          <div class="quick-appliance-chips">
+            <button type="button" class="quick-chip" onclick="Appliances.fillPreset('Ceiling Fan', 'climate', 75, 12)">+ Ceiling Fan (75W)</button>
+            <button type="button" class="quick-chip" onclick="Appliances.fillPreset('Inverter Air Conditioner', 'climate', 1400, 6)">+ Inverter AC (1400W)</button>
+            <button type="button" class="quick-chip" onclick="Appliances.fillPreset('Refrigerator', 'kitchen', 180, 24)">+ Refrigerator (180W)</button>
+            <button type="button" class="quick-chip" onclick="Appliances.fillPreset('LED Smart TV', 'entertainment', 90, 4)">+ LED TV (90W)</button>
+            <button type="button" class="quick-chip" onclick="Appliances.fillPreset('LED Bulbs', 'lighting', 9, 6)">+ LED Bulb (9W)</button>
+            <button type="button" class="quick-chip" onclick="Appliances.fillPreset('Tube Light', 'lighting', 40, 6)">+ Tube Light (40W)</button>
+            <button type="button" class="quick-chip" onclick="Appliances.fillPreset('Storage Geyser', 'other', 2000, 1.5)">+ Water Geyser (2000W)</button>
+            <button type="button" class="quick-chip" onclick="Appliances.fillPreset('Washing Machine', 'laundry', 500, 1)">+ Washing Machine (500W)</button>
+            <button type="button" class="quick-chip" onclick="Appliances.fillPreset('Desktop Computer', 'electronics', 250, 6)">+ Desktop PC (250W)</button>
+            <button type="button" class="quick-chip" onclick="Appliances.fillPreset('Laptop', 'electronics', 65, 8)">+ Laptop (65W)</button>
+          </div>
+
+          <form id="add-appliance-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="add-app-name">Appliance Name *</label>
+                <input type="text" id="add-app-name" class="form-input" placeholder="e.g. Living Room Fan" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="add-app-category">Category</label>
+                <select id="add-app-category" class="form-select">
+                  <option value="climate">Climate (AC / Fan / Heater)</option>
+                  <option value="kitchen">Kitchen (Fridge / Microwave / Cooktop)</option>
+                  <option value="lighting">Lighting (LED / Bulbs / Tube Light)</option>
+                  <option value="entertainment">Entertainment (TV / Audio / Console)</option>
+                  <option value="electronics">Electronics (PC / Laptop / WiFi)</option>
+                  <option value="laundry">Laundry (Washing Machine / Dryer)</option>
+                  <option value="other">Other (Geyser / Iron / Pumps)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="add-app-quantity">Number of Appliances (Quantity) *</label>
+                <input type="number" id="add-app-quantity" class="form-input" min="1" max="100" value="1" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="add-app-power">Average Power in Watts (W) *</label>
+                <input type="number" id="add-app-power" class="form-input" min="1" max="50000" step="1" placeholder="e.g. 75" required>
+                <div class="form-hint">Continuous electrical draw (W)</div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="add-app-hours">Hours Used Per Day (0 - 24) *</label>
+                <input type="number" id="add-app-hours" class="form-input" min="0" max="24" step="any" inputmode="decimal" placeholder="e.g. 8 or 1.5" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="add-app-standby">Standby Power in Watts (Optional)</label>
+                <input type="number" id="add-app-standby" class="form-input" min="0" max="1000" step="0.5" value="0">
+                <div class="form-hint">Phantom load while plugged in idle</div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end;">
+              <button type="submit" class="btn btn-primary">
+                + Add Appliance to Inventory
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Audited Appliances Table Card -->
+        <div class="eco-card">
+          <div class="eco-card-header">
+            <div class="eco-card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-leaf-green)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              Logged Appliances (<span id="appliances-count-text">0</span>)
+            </div>
+            <div style="font-size: 0.8125rem; color: var(--color-text-muted);">
+              Saved automatically to your account
+            </div>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table class="eco-table">
+              <thead>
+                <tr>
+                  <th>Appliance Name</th>
+                  <th>Category</th>
+                  <th>Quantity</th>
+                  <th>Power (Watts)</th>
+                  <th>Daily Hours</th>
+                  <th>Daily Energy (kWh)</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="appliances-table-body">
+                <tr>
+                  <td colspan="7" style="text-align: center; color: var(--color-text-muted); padding: 2rem;">
+                    No appliances added yet. Use the form above to add your first appliance.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap: 1rem;">
+            <div style="font-size: 0.8125rem; color: var(--color-text-muted);">
+              💡 <em>Formula: Daily Energy (kWh) = (Power × Quantity × Hours) / 1000</em>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="App.showView('results')">
+              Calculate Energy Analysis →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW B: CALCULATED RESULT & LOCALITY COMPARISON & SAFETY
+           ==================================================================== -->
+      <section id="results-view" style="display: none;">
+        <div class="page-header">
+          <div class="page-title">
+            <h2>Calculated Energy Report & Locality Comparison</h2>
+            <p>Review total daily, weekly, and monthly electricity consumption evaluated against regional locality baselines.</p>
+          </div>
+          <button type="button" class="btn btn-secondary" onclick="App.showView('appliances')">
+            ← Edit Appliances
+          </button>
+        </div>
+
+        <!-- Formula Banner -->
+        <div style="background: var(--color-white); border: 1px solid var(--color-border); border-left: 5px solid var(--color-energy); border-radius: var(--radius-md); padding: 1rem 1.25rem; margin-bottom: 1.75rem; box-shadow: var(--shadow-subtle);">
+          <div style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; color: var(--color-text-muted); letter-spacing: 0.05em; margin-bottom: 0.25rem;">
+            Official Electricity Consumption Formula
+          </div>
+          <div style="font-size: 1.05rem; font-weight: 700; color: var(--color-deep-green);">
+            Daily Energy consumption (kWh) = (Power in Watts × Number of Appliances × Hours used) / 1000
+          </div>
+        </div>
+
+        <!-- 3 Highlights Cards: Daily, Weekly, Monthly -->
+        <div class="metrics-banner">
+          <div class="metric-pill-card energy-highlight">
+            <div class="metric-title">Total Daily Energy Consumption</div>
+            <div class="metric-value">
+              <span id="res-daily-kwh">0.00</span>
+              <span class="unit">kWh / day</span>
+            </div>
+            <div id="res-daily-cost" class="metric-desc">₹0.00 per day estimated</div>
+          </div>
+
+          <div class="metric-pill-card">
+            <div class="metric-title">Weekly Energy Report</div>
+            <div class="metric-value">
+              <span id="res-weekly-kwh">0.00</span>
+              <span class="unit">kWh / week</span>
+            </div>
+            <div id="res-weekly-cost" class="metric-desc">Daily Consumption × 7 Days</div>
+          </div>
+
+          <div class="metric-pill-card deep-highlight">
+            <div class="metric-title">Monthly Energy Report</div>
+            <div class="metric-value">
+              <span id="res-monthly-kwh">0.00</span>
+              <span class="unit">kWh / month</span>
+            </div>
+            <div id="res-monthly-cost" class="metric-desc">Daily Consumption × 30 Days</div>
+          </div>
+        </div>
+
+        <!-- Locality Comparison Card -->
+        <div class="locality-banner">
+          <div class="eco-card-header" style="border: none; padding-bottom: 0.5rem; margin-bottom: 1rem;">
+            <div>
+              <div class="eco-card-title">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-leaf-green)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+                Locality Energy Usage Comparison
+              </div>
+              <p style="font-size: 0.8125rem; color: var(--color-text-muted); margin-top: 0.2rem;">
+                <span id="locality-intro">Comparing your daily consumption against the average Indian urban household (5 – 10 kWh/day).</span>
+              </p>
+            </div>
+            <div id="locality-diff-badge" style="padding: 0.35rem 0.85rem; border-radius: var(--radius-full); font-size: 0.8125rem; font-weight: 700;"></div>
+          </div>
+
+          <div class="locality-grid">
+            <!-- Visual Bar Comparison -->
+            <div class="comparison-meter-wrap">
+              <div class="comparison-bar-row">
+                <div class="comparison-bar-label">
+                  <span>Your Household Usage</span>
+                  <span id="label-user-kwh" style="color: var(--color-deep-green); font-weight: 700;">0.00 kWh/day</span>
+                </div>
+                <div class="comparison-track">
+                  <div id="bar-user-kwh" class="comparison-fill fill-user" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <div class="comparison-bar-row">
+                <div class="comparison-bar-label">
+                  <span id="label-locality-name">Average Urban Home</span>
+                  <span id="label-locality-kwh" style="color: var(--color-leaf-green); font-weight: 700;">7.50 kWh/day</span>
+                </div>
+                <div class="comparison-track">
+                  <div id="bar-locality-kwh" class="comparison-fill fill-locality" style="width: 50%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Locality Explanation Details -->
+            <div style="background: var(--color-mint-light); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.25rem; font-size: 0.8125rem; line-height: 1.5;">
+              <div style="font-weight: 700; color: var(--color-deep-green); margin-bottom: 0.4rem;">
+                Locality Baseline Source & Logic:
+              </div>
+              <p style="color: var(--color-text-muted); margin-bottom: 0.5rem;" id="locality-text-summary">
+                Add appliances in Step 1 to see how you compare.</p>
+              <div style="font-size: 0.75rem; color: var(--color-text-light);">
+                <span id="locality-reference">Reference: Prayas Energy Group & Central Electricity Authority (CEA) Urban Residential Energy Data.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Environmental Safety Verdict Card -->
+        <div class="eco-card">
+          <div class="eco-card-header">
+            <div class="eco-card-title">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-leaf-green)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              Environmental Safety Assessment
+            </div>
+            <span style="font-size: 0.8125rem; color: var(--color-text-muted);">
+              Logically assessed by household members and appliance capacity
+            </span>
+          </div>
+
+          <div class="safety-verdict-box">
+            <div id="safety-badge-icon" class="safety-badge-icon safe">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <div style="flex: 1;">
+              <h3 id="safety-status-title" class="safety-title">Safe for the Environment</h3>
+              <p id="safety-explanation-text" class="safety-text">
+                Your household consumption is within sustainable limits.
+              </p>
+              <div style="margin-top: 0.75rem; display: flex; gap: 1.5rem; font-size: 0.78rem; color: var(--color-text-muted); border-top: 1px solid var(--color-border); padding-top: 0.6rem;">
+                <div>Household Members: <strong id="safety-members-count" style="color: var(--color-deep-green);">3</strong></div>
+                <div>Per-Capita Draw: <strong id="safety-per-capita" style="color: var(--color-deep-green);">0.00 kWh/person/day</strong></div>
+                <div>Sustainable Target: <strong style="color: var(--color-leaf-green);">≤ 3.0 kWh/person/day</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detailed Per-Appliance Calculation Breakdown Table -->
+        <div class="eco-card">
+          <div class="eco-card-header">
+            <div class="eco-card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-leaf-green)" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+              Calculation Formula Breakdown by Appliance
+            </div>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table class="eco-table">
+              <thead>
+                <tr>
+                  <th>Appliance</th>
+                  <th>Formula: (Watts × Qty × Hours) / 1000</th>
+                  <th>Daily Consumption</th>
+                  <th>Weekly (× 7)</th>
+                  <th>Monthly (× 30)</th>
+                  <th>Monthly Cost (₹)</th>
+                </tr>
+              </thead>
+              <tbody id="results-table-body"></tbody>
+            </table>
+          </div>
+
+          <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
+            <button type="button" class="btn btn-primary" onclick="App.showView('recommendations')">
+              View Energy-Saving Recommendations →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW C: ENERGY-SAVING RECOMMENDATIONS
+           ==================================================================== -->
+      <section id="recommendations-view" style="display: none;">
+        <div class="page-header">
+          <div class="page-title">
+            <h2>Energy-Saving Recommendations</h2>
+            <p>Only the most useful actions, based on the appliances you entered.</p>
+          </div>
+          <button type="button" class="btn btn-secondary" onclick="App.showView('results')">
+            ← Back to Analysis
+          </button>
+        </div>
+
+        <!-- Recommendations Grid -->
+        <div id="recommendations-container" class="recommendations-grid"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ====================================================================
+       MODAL: EDIT APPLIANCE
+       ==================================================================== -->
+  <div id="edit-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="edit-modal-title" style="font-size: 1.15rem; color: var(--color-deep-green);">Edit Appliance</h3>
+        <button type="button" class="modal-close-btn" onclick="document.getElementById('edit-modal').classList.remove('active')">✕</button>
+      </div>
+
+      <form id="edit-appliance-form">
+        <input type="hidden" id="edit-app-id">
+
+        <div class="form-group">
+          <label class="form-label" for="edit-app-name">Appliance Name *</label>
+          <input type="text" id="edit-app-name" class="form-input" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="edit-app-category">Category</label>
+          <select id="edit-app-category" class="form-select">
+            <option value="climate">Climate (AC / Fan / Heater)</option>
+            <option value="kitchen">Kitchen (Fridge / Microwave / Cooktop)</option>
+            <option value="lighting">Lighting (LED / Bulbs / Tube Light)</option>
+            <option value="entertainment">Entertainment (TV / Audio / Console)</option>
+            <option value="electronics">Electronics (PC / Laptop / WiFi)</option>
+            <option value="laundry">Laundry (Washing Machine / Dryer)</option>
+            <option value="other">Other (Geyser / Iron / Pumps)</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="edit-app-quantity">Number of Appliances (Quantity) *</label>
+            <input type="number" id="edit-app-quantity" class="form-input" min="1" max="100" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="edit-app-power">Power (Watts) *</label>
+            <input type="number" id="edit-app-power" class="form-input" min="1" max="50000" step="1" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="edit-app-hours">Daily Hours Used (0 - 24) *</label>
+            <input type="number" id="edit-app-hours" class="form-input" min="0" max="24" step="any" inputmode="decimal" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="edit-app-standby">Standby Power (Watts)</label>
+            <input type="number" id="edit-app-standby" class="form-input" min="0" max="1000" step="0.5" value="0">
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.25rem;">
+          <button type="button" class="btn btn-secondary" onclick="document.getElementById('edit-modal').classList.remove('active')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/appliances.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

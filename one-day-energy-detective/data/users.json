@@ -1,0 +1,58 @@
+[
+  {
+    "email": "detective_1794551156941@energy.org",
+    "password_hash": "0766c3562496b5252ff0eaed89605d2906a2805292c08f192fc7a49b8d662f93",
+    "password_salt": "6a21363be2aad6c13a8e9d0469a8bbdf",
+    "full_name": "Detective Miller",
+    "created_at": "2026-11-13T06:25:56.981127",
+    "id": 1
+  },
+  {
+    "email": "detective.test@energyaudit.org",
+    "password_hash": "7121089c7a2918efb7f9bab24de06dd8e827fefcd8cf1cd47e90942773e6e870",
+    "password_salt": "1422b76590e17f2c4556851159b7abf9",
+    "full_name": "Audit Officer",
+    "created_at": "2026-11-13T06:25:57.268644",
+    "id": 2
+  },
+  {
+    "email": "tenant_a@audit.com",
+    "password_hash": "83d05a39d7fe0b0804b49a6b74cc1e548a7bc2f996776ba917357d3ce4727aeb",
+    "password_salt": "9def166dbbe9370bdda53d19c1ad1a78",
+    "full_name": "Tenant Alpha",
+    "created_at": "2026-11-13T06:25:57.318730",
+    "id": 3
+  },
+  {
+    "email": "tenant_b@audit.com",
+    "password_hash": "bfcebaf1ce49b6cfe62f2a014e8228163c7f78c6d8f81f01d82864774539cf20",
+    "password_salt": "dd084b5c3e83ef50300466efe40fd70b",
+    "full_name": "Tenant Beta",
+    "created_at": "2026-11-13T06:25:57.357125",
+    "id": 4
+  },
+  {
+    "email": "mani@gmail.com",
+    "password_hash": "d5338619066273bafe6dd7306d418c825a683f8c17a5100e9f473d0e4c921efb",
+    "password_salt": "8953a6f6d76617de4aa5f1d8edb6a611",
+    "full_name": "AAA",
+    "created_at": "2026-11-13T09:01:47.577420",
+    "id": 5
+  },
+  {
+    "email": "fjwhfvw@gmail.com",
+    "password_hash": "37449fc90705acbec01f850f6b06e3e7ea1b7d34292550042f48a370989dd201",
+    "password_salt": "be1bfd8c7e1708eb51a96e39199b9667",
+    "full_name": "hdgecj",
+    "created_at": "2026-11-13T09:03:21.097534",
+    "id": 6
+  },
+  {
+    "email": "detective_1794571187194@energy.org",
+    "password_hash": "2087c14fdcba5adfb8227cf30e196c9f10c0db9b14bd5991bf7e897066f0db3c",
+    "password_salt": "8ab38ce93e31434c9c34af09fbc16cbb",
+    "full_name": "Detective Miller",
+    "created_at": "2026-11-13T11:59:47.214586",
+    "id": 7
+  }
+]
